@@ -1,0 +1,23 @@
+          String b = ""; //Deklarace stringu pro výpočet
+					int i = 0;
+					System.out.println(model.capacity()-1); //DEBUG zpráva
+					
+					//Postupné vypsání řádků v modelu do stringu
+					while (i<model.capacity()-1) {
+						if (b=="") {
+							b = b + model.getElementAt(i);
+						}
+						else {
+							b = b + "\n" + model.getElementAt(i);
+						}
+						i++;
+					}
+					System.out.println(b); //DEBUG zpráva
+
+					//Uložení stringu do předem vybraného kontaktu
+					try (FileWriter fwriter = new FileWriter(PolohaTXT)) {
+						fwriter.write(b);
+						fwriter.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
