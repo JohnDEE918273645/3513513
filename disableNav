@@ -1,0 +1,11 @@
+public static void disableNav(Container c) {
+		for (Component x : c.getComponents())
+			if (x instanceof JComboBox)
+				((JComboBox<?>) x).setEnabled(false);
+			else if (x instanceof JButton) {
+				String text = ((JButton) x).getText();
+				if (text == null || text.isEmpty())
+					((JButton) x).setEnabled(false);
+			} else if (x instanceof Container)
+				disableNav((Container) x);
+	}
