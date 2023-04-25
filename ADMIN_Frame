@@ -1,0 +1,130 @@
+package main_code;
+
+import static main_code.Frame1.*;
+
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+public class ADMIN_Frame {
+
+	//
+	// Class jen pro lepší kontrolu funkcí a ovládání zbylého kódu
+	//
+
+	public static JFrame f = new JFrame("ADMIN Nastavení");
+	public static JButton b1 = new JButton("Zavřít vše");
+	public static JButton b2 = new JButton("Otevřít vše");
+	public static JButton b3 = new JButton("Otevřít SRC");
+	public static JButton b4 = new JButton("Zavřít ADMIN");
+
+	public static int ww = 510; // Window width
+	public static int wh = 125; // Window height
+	public static int wx = 50; // X position of a window
+	public static int wy = 50; // Y position of a window
+
+	public static int bw = 110;
+	public static int bh = 50;
+	public static int bg = 10;
+	public static int bx = (ww - 4 * bw - 3 * bg) / 2 - 8;
+	public static int by = 20;
+
+	private static void Add() {
+		f.add(b1);
+		f.add(b2);
+		f.add(b3);
+		f.add(b4);
+		return;
+	}
+
+	public static void background() {
+		f.getContentPane().setBackground(Color.BLACK);
+	}
+
+	//Otevření src složky
+	private static void openDirectory() throws IOException {
+		File directory = new File("./src");
+		Desktop.getDesktop().open(directory);
+	}
+
+	public static void main(String[] args) {
+		f.setState(Frame.NORMAL);
+		b1.setBounds(bx, by, bw, bh);
+		b2.setBounds(bx + bw + bg, by, bw, bh);
+		b3.setBounds(bx + 2 * bw + 2 * bg, by, bw, bh);
+		b4.setBounds(bx + 3 * bw + 3 * bg, by, bw, bh);
+
+		//Ukončení programu
+		b1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CloseAll();
+			}
+		});
+		
+		//Otevření všech oken
+		b2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Frame1.main(args);
+				Frame2.main(args);
+				Frame3.main(args);
+				Frame3.sec_frame();
+				Frame4.main(args);
+				Frame4.sec_frame();
+			}
+		});
+		
+		//Otevření src složky pro kontrolu souborů
+		b3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					openDirectory();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		//Zavření ADMIN_Framu
+		b4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				f.dispose();
+
+			}
+		});
+
+		WindowListener listener = (WindowListener) new WindowAdapter() {
+			public void windowActivated(WindowEvent evt) {
+				f.setIconImage(icon_white);
+			}
+
+			public void windowDeactivated(WindowEvent evt) {
+				f.setIconImage(icon);
+			}
+			// public void windowOpened(WindowEvent evt) {
+			// Frame3.f.setIconImage(icon_white);
+			// }
+		};
+		f.addWindowListener(listener);
+		f.setSize(ww, wh);
+		f.setVisible(true);
+		f.setBounds(wx, wy, ww, wh);
+		f.setLayout(null);
+		background();
+		Add();
+	}
+
+}
