@@ -1,0 +1,27 @@
+System.out.println("--Vypsat kontakt-- bylo požito.");
+				JFileChooser filechooser = new JFileChooser(); //Nový FileChooser
+				filechooser.setCurrentDirectory(new File("./src/kontakty"));
+				filechooser.setFileHidingEnabled(true); //Skrytí předlohy
+				disableNav(filechooser); //Uzamčení FileChooseru
+				int r = filechooser.showOpenDialog(f); //Získání číselné odpověni
+				
+				//Přečtení vybraného kontaktu, když je vybraný
+				if (r == APPROVE_OPTION) {
+					File file = new File(filechooser.getSelectedFile().toString()); //Získání pevné cesty ke kontaktu
+					System.out.println("Byl vybrán soubor: " + file); //DEBUG zpráva
+					Scanner sc; //Deklarace scanneru
+					model.removeAllElements(); //Příprava modelu
+					Frame2.main(null); //Spuštení mainu Prohlížeče kontaktů
+					try {
+						sc = new Scanner(file); //Scanování předem určení cesty
+						
+						//Ukládání řádků do elementů modelu
+						while (sc.hasNextLine()) {
+							model.addElement(sc.nextLine());
+						}
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(f, "Nebyl vybrán žádný soubor."); //Zpráva v případě nevybrání souboru
+				}
